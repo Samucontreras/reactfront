@@ -1,5 +1,5 @@
 import axios from "axios";
-import React, {useState, useEffect} from "react";
+import React, { useState, useEffect } from "react";
 import { useNavigate, useParams } from "react-router-dom";
 
 const endpoint = 'http://localhost:8000/api/product/'
@@ -9,7 +9,7 @@ const EditProduct = () => {
     const [price, setPrice] = useState(0)
     const [stock, setStock] = useState(0)
     const navigate = useNavigate()
-    const {id} = useParams()
+    const { id } = useParams()
 
     const update = async (e) => {
         e.preventDefault()
@@ -21,7 +21,7 @@ const EditProduct = () => {
         navigate('/')
     }
 
-    useEffect( () =>{
+    useEffect(() => {
         const getProductById = async () => {
             const response = await axios.get(`${endpoint}${id}`)
             setDescription(response.data.description)
@@ -32,43 +32,45 @@ const EditProduct = () => {
         getProductById()
         // esLint-disable-next-Line react-hooks/exhaustive-deps
 
-    }, [id] )
+    }, [id])
 
-    return(
-        <div>
-        <h3>Edit Product</h3>
-        <form onSubmit={update}>
-            <div className='mb-3'>
-                <label className='form-larabel'>Description</label>
-                <input
-                    value={description}
-                    onChange={ (e)=> setDescription(e.target.value)}
-                    type='text'
-                    className='form-control'
-                />
+    return (
+        <div className="container d-flex justify-content-center align-items-center vh-100">
+            <div className="card p-4" style={{ maxWidth: "600px" }}>
+                <h3>Edit Product</h3>
+                <form onSubmit={update}>
+                    <div className='mb-3'>
+                        <label className='form-label'>Description</label>
+                        <input
+                            value={description}
+                            onChange={(e) => setDescription(e.target.value)}
+                            type='text'
+                            className='form-control'
+                        />
+                    </div>
+                    <div className='mb-3'>
+                        <label className='form-label'>Price</label>
+                        <input
+                            value={price}
+                            onChange={(e) => setPrice(e.target.value)}
+                            type='number'
+                            className='form-control'
+                        />
+                    </div>
+                    <div className='mb-3'>
+                        <label className='form-label'>Stock</label>
+                        <input
+                            value={stock}
+                            onChange={(e) => setStock(e.target.value)}
+                            type='number'
+                            className='form-control'
+                        />
+                    </div>
+                    <button type='submit' className='btn btn-primary'>Store</button>
+                </form>
             </div>
-            <div className='mb-3'>
-                <label className='form-larabel'>Price</label>
-                <input
-                    value={price}
-                    onChange={ (e)=> setPrice(e.target.value)}
-                    type='number'
-                    className='form-control'
-                />
-            </div>
-            <div className='mb-3'>
-                <label className='form-larabel'>Stock</label>
-                <input
-                    value={stock}
-                    onChange={ (e)=> setStock(e.target.value)}
-                    type='number'
-                    className='form-control'
-                />
-            </div>
-            <button type='submit' className='btn btn-primary'>Store</button>
-        </form>
-    </div>
+        </div>
     )
 }
 
-export default EditProduct
+export default EditProduct;

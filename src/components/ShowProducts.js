@@ -1,58 +1,79 @@
-import React, { useEffect, useState } from 'react'
-import axios from 'axios'
+import React, { useEffect, useState } from 'react';
+import axios from 'axios';
+import { Link } from 'react-router-dom';
 
-import { Link } from 'react-router-dom'
-
-const endpoint = 'http://localhost:8000/api'
+const endpoint = 'http://localhost:8000/api';
 
 export const ShowProducts = () => {
-  const [products, setProducts] = useState([])
+  const [products, setProducts] = useState([]);
+
   useEffect(() => {
-    getAllProducts()
-  }, [])
+    getAllProducts();
+  }, []);
 
   const getAllProducts = async () => {
-    const response = await axios.get(`${endpoint}/products`)
-    setProducts(response.data)
-    console.log(response)
-  }
+    try {
+      const response = await axios.get(`${endpoint}/products`);
+      setProducts(response.data);
+      console.log(response);
+    } catch (error) {
+      console.error('Error fetching products:', error);
+    }
+  };
 
   const deleteProduct = async (id) => {
-    await axios.delete(`${endpoint}/product/${id}`)
-    getAllProducts()
-  }
+    try {
+      await axios.delete(`${endpoint}/product/${id}`);
+      getAllProducts();
+    } catch (error) {
+      console.error('Error deleting product:', error);
+    }
+  };
+
   return (
     <div>
-      <div className='d-grip gap-2'>
-        <Link to="/create" className='btn btn-success btn-lg mt-2 mb-2'>Crear</Link>
-      </div>
+      {/* Navbar */}
+      <nav className="navbar navbar-expand-lg navbar-light bg-light">
+        <div className="container-fluid">
+          <Link className="navbar-brand" to="/">Lista de Productos</Link>
+          <div className="collapse navbar-collapse" id="navbarSupportedContent">
+            <ul className="navbar-nav me-auto mb-2 mb-lg-0">
+              <li className="nav-item">
+                <Link className="nav-link" to="/create">Crear Producto</Link>
+              </li>
+            </ul>
+          </div>
+        </div>
+      </nav>
 
-      <table className='table table-striped'>
-        <thead className='bg-primary text-white'>
-          <tr>
-            <th>Description</th>
-            <th>Price</th>
-            <th>Stock</th>
-            <th>Action</th>
-          </tr>
-
-        </thead>
-        <tbody>
-          {products.map((product) => (
-            <tr key={product.id}>
-              <td> {product.description} </td>
-              <td> {product.price} </td>
-              <td> {product.stock} </td>
-              {<td>
-                <Link to={`/edit/${product.id}`} className='btn btn-warning'>Edit</Link>
-                <button onClick={ ()=>deleteProduct(product.id) } className='btn btn-danger'>Delete</button>
-              </td>}
+      {/* Product Table */}
+      <div className="container mt-4">
+        <table className="table table-striped">
+          <thead className="bg-primary text-white">
+            <tr>
+              <th>Description</th>
+              <th>Price</th>
+              <th>Stock</th>
+              <th>Action</th>
             </tr>
-          ))}
-        </tbody>
-      </table>
+          </thead>
+          <tbody>
+            {products.map((product) => (
+              <tr key={product.id}>
+                <td>{product.description}</td>
+                <td>{product.price}</td>
+                <td>{product.stock}</td>
+                <td>
+                  <Link to={`/edit/${product.id}`} className="btn btn-warning me-2">Edit</Link>
+                  <button onClick={() => deleteProduct(product.id)} className="btn btn-danger">Delete</button>
+                </td>
+              </tr>
+            ))}
+          </tbody>
+        </table>
+      </div>
     </div>
-  )
-}
+  );
+};
 
 export default ShowProducts;
