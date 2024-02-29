@@ -1,7 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import axios from 'axios';
 import { Link } from 'react-router-dom';
-//import logo from './logo192.png';
 
 const endpoint = 'http://localhost:8000/api';
 
@@ -36,13 +35,11 @@ export const ShowProducts = () => {
       {/* Navbar */}
       <nav className="navbar navbar-expand-lg navbar-light bg-light">
         <div className="container-fluid">
-          <Link className="navbar-brand" to="/">
-            <img src="./img.png" alt="Logo" width="150" height="75" className="d-inline-block align-top me-2" />
-          </Link>
+          <Link className="navbar-brand" to="/">Lista de Productos</Link>
           <div className="collapse navbar-collapse" id="navbarSupportedContent">
             <ul className="navbar-nav me-auto mb-2 mb-lg-0">
               <li className="nav-item">
-                <Link className="nav-link" to="/create">Prueba</Link>
+                <Link className="nav-link" to="/create">Crear Producto</Link>
               </li>
             </ul>
           </div>
